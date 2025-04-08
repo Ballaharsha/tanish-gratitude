@@ -179,53 +179,128 @@
       color: white;
       cursor: pointer;
     }
-    .contact-form {
-      margin-top: 2rem;
-      text-align: left;
-      max-width: 400px;
+    .checkout-section {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--white);
+      border-radius: 12px;
+      max-width: 600px;
       margin-left: auto;
       margin-right: auto;
     }
-    .contact-form input, .contact-form textarea {
+    .checkout-section input {
       width: 100%;
-      padding: 0.6rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
       border-radius: 6px;
+      border: 1px solid #ccc;
     }
-    .contact-form button {
+    .checkout-section button {
       background-color: var(--accent-color);
       color: white;
-      padding: 0.7rem 1.5rem;
+      padding: 0.8rem 1.5rem;
       border: none;
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
     }
-    .whatsapp-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25d366;
-      color: white;
-      border-radius: 50%;
-      padding: 15px;
-      font-size: 24px;
-      z-index: 1000;
-      text-decoration: none;
-    }
   </style>
 </head>
 <body>
-<!-- Original content unchanged above -->
+  <!-- header and product sections unchanged -->
 
-<script>
-// Existing cart logic here...
-// Add below inside updateCartDisplay at the end
-const orderButton = document.createElement('button');
-orderButton.textContent = 'Checkout & Confirm';
-orderButton.onclick = () => alert('Order Confirmed! Payment to be collected offline or via UPI. Thank you!');
-document.getElementById('cart-modal').appendChild(orderButton);
-</script>
+  <section class="checkout-section">
+    <h2>Order Summary & Payment</h2>
+    <div id="order-summary"></div>
+    <form onsubmit="return submitOrder()">
+      <input type="text" id="customer-name" placeholder="Your Full Name" required />
+      <input type="email" id="customer-email" placeholder="Your Email" required />
+      <input type="text" id="customer-address" placeholder="Delivery Address" required />
+      <input type="text" id="customer-phone" placeholder="Phone Number" required />
+      <button type="submit">Confirm & Pay</button>
+    </form>
+  </section>
+
+  <!-- footer unchanged -->
+
+  <script>
+    const cart = {};
+
+    function addToCart(button) {
+      const product = button.closest('.product');
+      const name = product.getAttribute('data-name');
+      const price = parseInt(product.getAttribute('data-price'));
+      if (cart[name]) {
+        cart[name].qty += 1;
+      } else {
+        cart[name] = { price, qty: 1 };
+      }
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const items = document.getElementById('cart-items');
+      const count = document.getElementById('cart-count');
+      const total = document.getElementById('cart-total');
+      items.innerHTML = '';
+      let totalCount = 0;
+      let totalPrice = 0;
+      for (const name in cart) {
+        const item = cart[name];
+        const li = document.createElement('li');
+        li.innerHTML = `${name} - ₹${item.price} × ${item.qty}` +
+          `<div class="qty-btns">
+            <button onclick="changeQty('${name}', -1)">-</button>
+            <button onclick="changeQty('${name}', 1)">+</button>
+          </div>`;
+        items.appendChild(li);
+        totalCount += item.qty;
+        totalPrice += item.qty * item.price;
+      }
+      count.innerText = totalCount;
+      total.innerText = totalPrice;
+      generateOrderSummary();
+    }
+
+    function generateOrderSummary() {
+      const summary = document.getElementById('order-summary');
+      if (!summary) return;
+      summary.innerHTML = '<h3>Items:</h3>';
+      let totalPrice = 0;
+      for (const name in cart) {
+        const item = cart[name];
+        summary.innerHTML += `<p>${name} - ₹${item.price} × ${item.qty}</p>`;
+        totalPrice += item.price * item.qty;
+      }
+      summary.innerHTML += `<p><strong>Total Price: ₹${totalPrice}</strong></p>`;
+    }
+
+    function changeQty(name, delta) {
+      if (!cart[name]) return;
+      cart[name].qty += delta;
+      if (cart[name].qty <= 0) delete cart[name];
+      updateCartDisplay();
+    }
+
+    function clearCart() {
+      for (let key in cart) delete cart[key];
+      updateCartDisplay();
+    }
+
+    function toggleCart() {
+      const modal = document.getElementById('cart-modal');
+      modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle('dark');
+    }
+
+    function submitOrder() {
+      alert('Thank you for your order! We will contact you soon.');
+      clearCart();
+      return false;
+    }
+  </script>
 </body>
 </html>
