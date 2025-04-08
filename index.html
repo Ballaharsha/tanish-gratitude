@@ -8,7 +8,7 @@
   <!-- Google Font for header -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
-  <!-- Open Graph Meta Tags -->
+  <!-- Open Graph Meta Tags for SEO and Social Sharing -->
   <meta property="og:title" content="Tanish Gift of Gratitude" />
   <meta property="og:description" content="Custom handcrafted gifts made with love & gratitude." />
   <meta property="og:image" content="sample1.jpg" />
@@ -24,134 +24,7 @@
     gtag('config', 'G-XXXXXXXXXX');
   </script>
 
-  <style>
-    :root {
-      --bg-color: #ffe6f0;
-      --text-color: #4d0039;
-      --header-bg: #ff99cc;
-      --accent-color: #cc6699;
-      --white: #ffffff;
-    }
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    body.dark {
-      --bg-color: #1e1e1e;
-      --text-color: #f5f5f5;
-      --header-bg: #333;
-      --accent-color: #ff66aa;
-    }
-    header {
-      background-color: var(--header-bg);
-      padding: 2rem;
-      text-align: center;
-      color: white;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-    }
-    header img {
-      height: 120px;
-      margin-bottom: 10px;
-    }
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      margin: 0.2rem 0;
-    }
-    nav {
-      margin-top: 1rem;
-    }
-    nav a {
-      margin: 0 15px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .toggle-mode {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--accent-color);
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .floating-cart {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      background: var(--accent-color);
-      color: white;
-      padding: 0.7rem;
-      border-radius: 50%;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-    .floating-cart span {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      background: red;
-      border-radius: 50%;
-      font-size: 12px;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .cart-popup {
-      display: none;
-      position: fixed;
-      right: 20px;
-      bottom: 130px;
-      width: 300px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      z-index: 1002;
-    }
-    .cart-popup.active {
-      display: block;
-    }
-    .cart-popup h3 {
-      margin-top: 0;
-    }
-    .cart-popup ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-    .cart-popup li {
-      margin-bottom: 0.5rem;
-    }
-    .cart-popup .total {
-      font-weight: bold;
-      margin-top: 1rem;
-    }
-    .cart-popup button {
-      background: var(--accent-color);
-      color: white;
-      padding: 0.5rem;
-      width: 100%;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
@@ -170,75 +43,82 @@
     <h2>Welcome to Our World of Handcrafted Gifts</h2>
     <p>Custom photo frames, art pieces, and meaningful creations crafted with love and gratitude.</p>
 
+    <div class="cta">
+      <a href="https://instagram.com/giftof_gratitude" target="_blank">Follow Us on Instagram</a>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="controls">
+      <input type="text" id="searchBar" placeholder="Search products..." onkeyup="filterProducts()">
+      <select id="categoryFilter" onchange="filterProducts()">
+        <option value="all">All</option>
+        <option value="frames">Frames</option>
+        <option value="albums">Albums</option>
+        <option value="gifts">Gifts</option>
+      </select>
+      <select id="sortOptions" onchange="sortProducts()">
+        <option value="default">Sort By</option>
+        <option value="priceLow">Price: Low to High</option>
+        <option value="priceHigh">Price: High to Low</option>
+        <option value="popularity">Popularity</option>
+      </select>
+    </div>
+
+    <!-- Product Section -->
     <section id="products" class="products">
-      <!-- Product cards will go here -->
+      <!-- Products will be injected by JS -->
+    </section>
+
+    <!-- Cart Popup -->
+    <div id="cartPopup" class="cart-popup hidden">
+      <h3>Your Cart</h3>
+      <div id="cartItems"></div>
+      <p>Total: ₹<span id="cartTotal">0</span></p>
+      <button onclick="clearCart()">Clear Cart</button>
+      <button onclick="showOrderSummary()">Proceed to Summary</button>
+    </div>
+
+    <!-- Floating Cart Icon -->
+    <div class="cart-icon" onclick="toggleCartPopup()">
+      🛒 <span id="cartCount">0</span>
+    </div>
+
+    <!-- Order Summary Modal -->
+    <div id="orderSummary" class="modal hidden">
+      <h3>Order Summary</h3>
+      <div id="summaryDetails"></div>
+      <form id="paymentForm">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <input type="text" placeholder="Shipping Address" required>
+        <button type="submit">Confirm Order</button>
+      </form>
+    </div>
+
+    <!-- Feedback Section -->
+    <section id="feedback">
+      <h2>Send Us Your Feedback</h2>
+      <form action="https://formsubmit.co/indrajapolasa@gmail.com" method="POST" class="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Feedback" rows="4" required></textarea>
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2>Contact Indraja Balla</h2>
+      <p>Email: <a href="mailto:indrajapolasa@gmail.com">indrajapolasa@gmail.com</a></p>
     </section>
   </main>
 
-  <!-- Floating Cart Button -->
-  <div class="floating-cart" onclick="toggleCart()">
-    🛒<span id="cart-count">0</span>
-  </div>
+  <a href="https://wa.me/919999999999" class="whatsapp-float" target="_blank">💬</a>
 
-  <!-- Cart Popup -->
-  <div class="cart-popup" id="cart-popup">
-    <h3>Your Cart</h3>
-    <ul id="cart-items"></ul>
-    <div class="total">Total: ₹<span id="cart-total">0</span></div>
-    <button onclick="checkout()">Checkout</button>
-    <button onclick="clearCart()">Clear Cart</button>
-  </div>
+  <footer>
+    <p>&copy; 2025 Tanish Gift of Gratitude. All rights reserved.</p>
+  </footer>
 
-  <script>
-    let cart = [];
-
-    function toggleMode() {
-      document.body.classList.toggle("dark");
-    }
-
-    function toggleCart() {
-      document.getElementById('cart-popup').classList.toggle('active');
-    }
-
-    function addToCart(name, price) {
-      const existing = cart.find(item => item.name === name);
-      if (existing) {
-        existing.qty++;
-      } else {
-        cart.push({ name, price, qty: 1 });
-      }
-      updateCart();
-    }
-
-    function updateCart() {
-      const cartItems = document.getElementById('cart-items');
-      const cartCount = document.getElementById('cart-count');
-      const cartTotal = document.getElementById('cart-total');
-
-      cartItems.innerHTML = '';
-      let total = 0;
-      let count = 0;
-
-      cart.forEach(item => {
-        total += item.price * item.qty;
-        count += item.qty;
-        cartItems.innerHTML += `<li>${item.name} x${item.qty} - ₹${item.price * item.qty}</li>`;
-      });
-
-      cartCount.textContent = count;
-      cartTotal.textContent = total;
-    }
-
-    function clearCart() {
-      cart = [];
-      updateCart();
-    }
-
-    function checkout() {
-      alert('Order confirmed! Thank you for shopping with us.');
-      clearCart();
-      toggleCart();
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
