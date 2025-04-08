@@ -15,6 +15,15 @@
   <meta property="og:url" content="https://yourdomain.com" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <style>
     :root {
       --bg-color: #ffe6f0;
@@ -126,6 +135,28 @@
       transform: scale(1.05);
     }
 
+    .cart-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    .cart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--white);
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 1001;
+    }
+
     footer {
       background-color: var(--header-bg);
       color: white;
@@ -190,7 +221,7 @@
   <main>
     <h2>Welcome to Our World of Handcrafted Gifts</h2>
     <p>Custom photo frames, art pieces, and meaningful creations crafted with love and gratitude.</p>
-    
+
     <div class="cta">
       <a href="https://instagram.com/giftof_gratitude" target="_blank">Follow Us on Instagram</a>
     </div>
@@ -202,7 +233,7 @@
         <p>A handcrafted photo frame made to preserve your memories beautifully.</p>
         <p><strong>Price:</strong> ₹499</p>
         <p>⭐️⭐️⭐️⭐️☆ (12 reviews)</p>
-        <a href="https://wa.me/919999999999" target="_blank">Order Now</a>
+        <button class="cart-btn" onclick="addToCart('Custom Photo Frame', 499)">Add to Cart</button>
       </div>
       <div class="product">
         <img src="sample2.jpg" alt="Mini Scrapbook" />
@@ -210,7 +241,7 @@
         <p>A pocket-sized book filled with love, perfect for gifting.</p>
         <p><strong>Price:</strong> ₹299</p>
         <p>⭐️⭐️⭐️⭐️⭐️ (8 reviews)</p>
-        <a href="https://wa.me/919999999999" target="_blank">Order Now</a>
+        <button class="cart-btn" onclick="addToCart('Mini Scrapbook', 299)">Add to Cart</button>
       </div>
       <div class="product">
         <img src="sample3.jpg" alt="Name Plate Frame" />
@@ -218,7 +249,7 @@
         <p>Elegant name plate designs with floral or wooden themes.</p>
         <p><strong>Price:</strong> ₹599</p>
         <p>⭐️⭐️⭐️⭐️☆ (15 reviews)</p>
-        <a href="https://wa.me/919999999999" target="_blank">Order Now</a>
+        <button class="cart-btn" onclick="addToCart('Name Plate Frame', 599)">Add to Cart</button>
       </div>
       <div class="product">
         <img src="sample4.jpg" alt="Anniversary Gift Frame" />
@@ -226,9 +257,11 @@
         <p>Celebrate love with a personalized frame for special occasions.</p>
         <p><strong>Price:</strong> ₹699</p>
         <p>⭐️⭐️⭐️⭐️⭐️ (10 reviews)</p>
-        <a href="https://wa.me/919999999999" target="_blank">Order Now</a>
+        <button class="cart-btn" onclick="addToCart('Anniversary Gift Frame', 699)">Add to Cart</button>
       </div>
     </section>
+
+    <div class="cart" id="cart"></div>
 
     <section id="contact">
       <h2>Contact Indraja Balla</h2>
@@ -252,6 +285,32 @@
   <script>
     function toggleMode() {
       document.body.classList.toggle("dark");
+    }
+
+    const cart = [];
+    function addToCart(productName, price) {
+      const existing = cart.find(item => item.name === productName);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ name: productName, price: price, qty: 1 });
+      }
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartBox = document.getElementById('cart');
+      if (cart.length === 0) {
+        cartBox.innerHTML = '<p>Your cart is empty.</p>';
+        cartBox.style.display = 'none';
+        return;
+      }
+      cartBox.innerHTML = '<h3>Your Cart</h3>' + cart.map(item => `
+        <div>
+          ${item.name} - ₹${item.price} x ${item.qty} = ₹${item.price * item.qty}
+        </div>
+      `).join('') + `<p><strong>Total: ₹${cart.reduce((sum, item) => sum + item.price * item.qty, 0)}</strong></p>`;
+      cartBox.style.display = 'block';
     }
   </script>
 </body>
