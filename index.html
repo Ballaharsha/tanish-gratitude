@@ -4,43 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tanish Gift of Gratitude</title>
+
+  <!-- Google Font for header -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root {
-      --primary-color: #ff99cc;
-      --accent-color: #cc6699;
-      --bg-color: #ffe6f0;
-      --text-color: #4d0039;
-      --dark-bg: #1f1f1f;
-      --dark-text: #f0f0f0;
-    }
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: background 0.3s, color 0.3s;
-    }
-    body.dark-mode {
-      background-color: var(--dark-bg);
-      color: var(--dark-text);
+      background-color: #ffe6f0;
+      color: #4d0039;
     }
     header {
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      background-color: var(--primary-color);
-      padding: 1rem;
+      background-color: #ff99cc;
+      padding: 2rem;
       text-align: center;
       color: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     header img {
-      height: 100px;
+      height: 120px;
+      margin-bottom: 10px;
     }
     header h1 {
       font-family: 'Playfair Display', serif;
+      font-size: 3rem;
       margin: 0.2rem 0;
     }
     nav {
@@ -52,50 +41,47 @@
       text-decoration: none;
       font-weight: bold;
     }
-    .toggle-mode {
-      position: absolute;
-      right: 20px;
-      top: 20px;
-      cursor: pointer;
-      font-size: 1.2rem;
+    main {
+      padding: 2rem;
     }
-    .search-bar {
-      margin: 2rem auto;
-      max-width: 400px;
+    .cta {
+      margin-top: 2rem;
       text-align: center;
     }
-    .search-bar input {
-      width: 100%;
-      padding: 0.6rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    .filters {
-      text-align: center;
-      margin: 1rem 0;
-    }
-    .filters button {
-      margin: 0.3rem;
-      padding: 0.5rem 1rem;
-      background: var(--accent-color);
+    .cta a {
+      background-color: #cc6699;
       color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+    .category-tabs button {
+      padding: 0.5rem 1rem;
       border: none;
-      border-radius: 6px;
+      background-color: #cc6699;
+      color: white;
+      border-radius: 8px;
       cursor: pointer;
     }
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 2rem;
-      padding: 2rem;
     }
     .product {
       background: white;
       border-radius: 12px;
       padding: 1rem;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-      cursor: pointer;
+      transition: transform 0.3s ease;
     }
     .product:hover {
       transform: scale(1.05);
@@ -104,71 +90,82 @@
       max-width: 100%;
       border-radius: 8px;
     }
-    .product h3, .product p, .product .price, .product .rating {
-      margin: 0.5rem 0;
-    }
-    .product .price {
-      font-weight: bold;
-    }
-    .product .rating {
-      color: gold;
-    }
-    .add-to-cart {
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
     .cart-icon {
       position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #cc6699;
+      color: white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      z-index: 1000;
+      cursor: pointer;
+    }
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: white;
+      color: #cc6699;
+      border-radius: 50%;
+      font-size: 14px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    footer {
+      background-color: #ff99cc;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    .contact-form {
+      margin-top: 2rem;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .contact-form button {
+      background-color: #cc6699;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .whatsapp-float {
+      position: fixed;
       bottom: 20px;
-      right: 80px;
-      background: var(--accent-color);
+      right: 20px;
+      background: #25d366;
       color: white;
       border-radius: 50%;
       padding: 15px;
-      font-size: 20px;
+      font-size: 24px;
       z-index: 1000;
-    }
-    .cart-icon span {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      background: red;
-      border-radius: 50%;
-      padding: 2px 6px;
-      font-size: 12px;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1001;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-    .modal-content {
-      background-color: white;
-      margin: 10% auto;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 500px;
-    }
-    .modal-close {
-      float: right;
-      cursor: pointer;
-      font-size: 20px;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="toggle-mode" onclick="toggleMode()">🌓</div>
     <img src="logo.png" alt="Tanish Gift of Gratitude Logo" />
     <h1>Tanish Gift of Gratitude</h1>
     <p>Gratitude, Handcrafted with Love</p>
@@ -178,121 +175,90 @@
       <a href="#contact">Contact</a>
     </nav>
   </header>
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search products...">
-  </div>
-  <div class="filters">
-    <button onclick="filterProducts('all')">All</button>
-    <button onclick="filterProducts('frames')">Frames</button>
-    <button onclick="filterProducts('scrapbooks')">Scrapbooks</button>
-  </div>
-  <section id="products" class="products">
-    <!-- Product cards will go here (updated in script) -->
-  </section>
 
-  <div class="modal" id="productModal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeModal()">&times;</span>
-      <div id="modalDetails"></div>
+  <main>
+    <h2 style="text-align: center;">Welcome to Our World of Handcrafted Gifts</h2>
+    <p style="text-align: center;">Custom photo frames, art pieces, and meaningful creations crafted with love and gratitude.</p>
+
+    <div class="cta">
+      <a href="https://instagram.com/giftof_gratitude" target="_blank">Follow Us on Instagram</a>
     </div>
+
+    <div class="category-tabs">
+      <button onclick="filterCategory('all')">All</button>
+      <button onclick="filterCategory('frames')">Frames</button>
+      <button onclick="filterCategory('scrapbooks')">Scrapbooks</button>
+      <button onclick="filterCategory('nameplates')">Name Plates</button>
+    </div>
+
+    <section id="products" class="products">
+      <div class="product" data-category="frames">
+        <img src="sample1.jpg" alt="Custom Photo Frame" />
+        <h3>Custom Photo Frame</h3>
+        <p>A handcrafted photo frame made to preserve your memories beautifully.</p>
+        <a href="https://wa.me/919999999999" target="_blank">Order Now</a>
+      </div>
+      <div class="product" data-category="scrapbooks">
+        <img src="sample2.jpg" alt="Mini Scrapbook" />
+        <h3>Mini Scrapbook</h3>
+        <p>A pocket-sized book filled with love, perfect for gifting.</p>
+        <a href="https://wa.me/919999999999" target="_blank">Order Now</a>
+      </div>
+      <div class="product" data-category="nameplates">
+        <img src="sample3.jpg" alt="Name Plate Frame" />
+        <h3>Name Plate Frame</h3>
+        <p>Elegant name plate designs with floral or wooden themes.</p>
+        <a href="https://wa.me/919999999999" target="_blank">Order Now</a>
+      </div>
+      <div class="product" data-category="frames">
+        <img src="sample4.jpg" alt="Anniversary Gift Frame" />
+        <h3>Anniversary Gift Frame</h3>
+        <p>Celebrate love with a personalized frame for special occasions.</p>
+        <a href="https://wa.me/919999999999" target="_blank">Order Now</a>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Indraja Balla</h2>
+      <p>Email: <a href="mailto:indrajapolasa@gmail.com">indrajapolasa@gmail.com</a></p>
+
+      <form action="https://formsubmit.co/indrajapolasa@gmail.com" method="POST" class="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <div class="cart-icon">
+    🛒<div class="cart-count" id="cartCount">0</div>
   </div>
 
-  <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i><span id="cartCount">0</span></a>
   <a href="https://wa.me/919999999999" class="whatsapp-float" target="_blank">💬</a>
 
-  <section id="contact">
-    <h2>Contact Indraja Balla</h2>
-    <p>Email: <a href="mailto:indrajapolasa@gmail.com">indrajapolasa@gmail.com</a></p>
-    <form action="https://formsubmit.co/indrajapolasa@gmail.com" method="POST" class="contact-form">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
   <footer>
     <p>&copy; 2025 Tanish Gift of Gratitude. All rights reserved.</p>
   </footer>
 
   <script>
-    const products = [
-      { name: 'Custom Photo Frame', price: '₹799', rating: 4.5, category: 'frames', image: 'sample1.jpg', desc: 'A handcrafted photo frame made to preserve your memories beautifully.' },
-      { name: 'Mini Scrapbook', price: '₹499', rating: 4.2, category: 'scrapbooks', image: 'sample2.jpg', desc: 'A pocket-sized book filled with love, perfect for gifting.' },
-      { name: 'Name Plate Frame', price: '₹999', rating: 4.7, category: 'frames', image: 'sample3.jpg', desc: 'Elegant name plate designs with floral or wooden themes.' },
-      { name: 'Anniversary Gift Frame', price: '₹899', rating: 4.6, category: 'frames', image: 'sample4.jpg', desc: 'Celebrate love with a personalized frame for special occasions.' }
-    ];
-
     let cartCount = 0;
-
-    function renderProducts(filter = 'all') {
-      const container = document.getElementById('products');
-      container.innerHTML = '';
-      const filtered = products.filter(p => filter === 'all' || p.category === filter);
-      filtered.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'product';
-        div.innerHTML = `
-          <img src="${p.image}" alt="${p.name}" onclick="showModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">
-          <h3>${p.name}</h3>
-          <p>${p.desc}</p>
-          <div class="price">${p.price}</div>
-          <div class="rating">${'★'.repeat(Math.floor(p.rating))}</div>
-          <button class="add-to-cart" onclick="addToCart(event)">Add to Cart</button>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function addToCart(event) {
-      event.stopPropagation();
-      cartCount++;
-      document.getElementById('cartCount').innerText = cartCount;
-    }
-
-    function showModal(product) {
-      document.getElementById('modalDetails').innerHTML = `
-        <h2>${product.name}</h2>
-        <img src="${product.image}" style="max-width: 100%" />
-        <p>${product.desc}</p>
-        <p><strong>Price:</strong> ${product.price}</p>
-        <p><strong>Rating:</strong> ${product.rating} / 5</p>
-      `;
-      document.getElementById('productModal').style.display = 'block';
-    }
-
-    function closeModal() {
-      document.getElementById('productModal').style.display = 'none';
-    }
-
-    function filterProducts(category) {
-      renderProducts(category);
-    }
-
-    document.getElementById('searchInput').addEventListener('input', e => {
-      const term = e.target.value.toLowerCase();
-      const container = document.getElementById('products');
-      container.innerHTML = '';
-      const filtered = products.filter(p => p.name.toLowerCase().includes(term));
-      filtered.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'product';
-        div.innerHTML = `
-          <img src="${p.image}" alt="${p.name}" onclick="showModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">
-          <h3>${p.name}</h3>
-          <p>${p.desc}</p>
-          <div class="price">${p.price}</div>
-          <div class="rating">${'★'.repeat(Math.floor(p.rating))}</div>
-          <button class="add-to-cart" onclick="addToCart(event)">Add to Cart</button>
-        `;
-        container.appendChild(div);
+    document.querySelectorAll('.product a').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cartCount++;
+        document.getElementById('cartCount').textContent = cartCount;
       });
     });
 
-    function toggleMode() {
-      document.body.classList.toggle('dark-mode');
+    function filterCategory(category) {
+      document.querySelectorAll('.product').forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+          product.style.display = 'block';
+        } else {
+          product.style.display = 'none';
+        }
+      });
     }
-
-    renderProducts();
   </script>
 </body>
 </html>
