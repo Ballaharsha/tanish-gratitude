@@ -7,57 +7,7 @@
 
   <!-- Google Font for header -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <script defer>
-    document.addEventListener("DOMContentLoaded", () => {
-      const searchInput = document.getElementById("searchInput");
-      const categorySelect = document.getElementById("categoryFilter");
-      const products = document.querySelectorAll(".product");
-      const cartIcon = document.getElementById("cartIcon");
-      const cartPopup = document.getElementById("cartPopup");
-      const cartItemsList = document.getElementById("cartItems");
-      const cartCount = document.getElementById("cartCount");
-      const clearCartBtn = document.getElementById("clearCart");
 
-      let cart = [];
-
-      function updateCartUI() {
-        cartItemsList.innerHTML = cart.map(item => `<li>${item}</li>`).join("");
-        cartCount.textContent = cart.length;
-      }
-
-      document.querySelectorAll(".add-to-cart").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const itemName = btn.getAttribute("data-name");
-          cart.push(itemName);
-          updateCartUI();
-        });
-      });
-
-      cartIcon.addEventListener("click", () => {
-        cartPopup.style.display = cartPopup.style.display === "block" ? "none" : "block";
-      });
-
-      clearCartBtn.addEventListener("click", () => {
-        cart = [];
-        updateCartUI();
-      });
-
-      function filterProducts() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const selectedCategory = categorySelect.value;
-        products.forEach(product => {
-          const name = product.querySelector("h3").textContent.toLowerCase();
-          const category = product.getAttribute("data-category");
-          const matchesSearch = name.includes(searchTerm);
-          const matchesCategory = selectedCategory === "all" || selectedCategory === category;
-          product.style.display = matchesSearch && matchesCategory ? "block" : "none";
-        });
-      }
-
-      searchInput.addEventListener("input", filterProducts);
-      categorySelect.addEventListener("change", filterProducts);
-    });
-  </script>
   <style>
     body {
       margin: 0;
@@ -104,15 +54,6 @@
       text-decoration: none;
       font-weight: bold;
     }
-    .search-filter {
-      margin: 2rem 0;
-    }
-    .search-filter input, .search-filter select {
-      padding: 0.5rem;
-      margin: 0 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
     .products {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -128,15 +69,6 @@
     .product img {
       max-width: 100%;
       border-radius: 8px;
-    }
-    .product button {
-      background-color: #cc6699;
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 0.5rem;
     }
     footer {
       background-color: #ff99cc;
@@ -170,7 +102,7 @@
     }
     .whatsapp-float {
       position: fixed;
-      bottom: 80px;
+      bottom: 20px;
       right: 20px;
       background: #25d366;
       color: white;
@@ -180,38 +112,27 @@
       z-index: 1000;
       text-decoration: none;
     }
-    .cart-icon {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #cc6699;
-      color: white;
-      border-radius: 50%;
-      padding: 15px;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 1001;
+    .feedback-section, .payment-section {
+      margin-top: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .cart-popup {
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+    .feedback-section h2, .payment-section h2 {
+      text-align: center;
+    }
+    .feedback-section form textarea {
+      resize: vertical;
+    }
+    .payment-section input[type="text"] {
+      margin-bottom: 1rem;
+    }
+    .payment-section .upi {
+      background-color: white;
       padding: 1rem;
+      border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 250px;
-      display: none;
-      z-index: 1002;
-    }
-    .cart-popup h4 {
-      margin-top: 0;
-    }
-    .cart-popup ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1rem 0;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -230,49 +151,39 @@
   <main>
     <h2>Welcome to Our World of Handcrafted Gifts</h2>
     <p>Custom photo frames, art pieces, and meaningful creations crafted with love and gratitude.</p>
+
     <div class="cta">
       <a href="https://instagram.com/giftof_gratitude" target="_blank">Follow Us on Instagram</a>
     </div>
 
-    <div class="search-filter">
-      <input type="text" id="searchInput" placeholder="Search products...">
-      <select id="categoryFilter">
-        <option value="all">All Categories</option>
-        <option value="frames">Frames</option>
-        <option value="albums">Albums</option>
-      </select>
-    </div>
+    <section class="feedback-section">
+      <h2>Leave a Feedback</h2>
+      <form action="https://formsubmit.co/indrajapolasa@gmail.com" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="feedback" placeholder="Your Feedback" rows="4" required></textarea>
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </section>
+
+    <section class="payment-section">
+      <h2>Make a Payment</h2>
+      <p>Use the UPI ID below to complete your payment and confirm with us via WhatsApp:</p>
+      <div class="upi">
+        <p><strong>UPI ID:</strong> tanishgift@ybl</p>
+        <p>Scan QR code or copy UPI ID in your payment app.</p>
+        <img src="upi_qr_sample.png" alt="UPI QR Code" style="max-width: 200px; margin-top: 1rem;">
+      </div>
+    </section>
 
     <section id="products" class="products">
-      <div class="product" data-category="frames">
-        <img src="sample1.jpg" alt="Custom Photo Frame" />
-        <h3>Custom Photo Frame</h3>
-        <p>A handcrafted photo frame made to preserve your memories beautifully.</p>
-        <button class="add-to-cart" data-name="Custom Photo Frame">Add to Cart</button>
-      </div>
-      <div class="product" data-category="albums">
-        <img src="sample2.jpg" alt="Mini Scrapbook" />
-        <h3>Mini Scrapbook</h3>
-        <p>A pocket-sized book filled with love, perfect for gifting.</p>
-        <button class="add-to-cart" data-name="Mini Scrapbook">Add to Cart</button>
-      </div>
-      <div class="product" data-category="frames">
-        <img src="sample3.jpg" alt="Name Plate Frame" />
-        <h3>Name Plate Frame</h3>
-        <p>Elegant name plate designs with floral or wooden themes.</p>
-        <button class="add-to-cart" data-name="Name Plate Frame">Add to Cart</button>
-      </div>
-      <div class="product" data-category="frames">
-        <img src="sample4.jpg" alt="Anniversary Gift Frame" />
-        <h3>Anniversary Gift Frame</h3>
-        <p>Celebrate love with a personalized frame for special occasions.</p>
-        <button class="add-to-cart" data-name="Anniversary Gift Frame">Add to Cart</button>
-      </div>
+      <!-- Product items will be listed here -->
     </section>
 
     <section id="contact">
       <h2>Contact Indraja Balla</h2>
       <p>Email: <a href="mailto:indrajapolasa@gmail.com">indrajapolasa@gmail.com</a></p>
+
       <form action="https://formsubmit.co/indrajapolasa@gmail.com" method="POST" class="contact-form">
         <input type="text" name="name" placeholder="Your Name" required />
         <input type="email" name="email" placeholder="Your Email" required />
@@ -283,13 +194,6 @@
   </main>
 
   <a href="https://wa.me/919999999999" class="whatsapp-float" target="_blank">💬</a>
-
-  <div class="cart-icon" id="cartIcon">🛒 <span id="cartCount">0</span></div>
-  <div class="cart-popup" id="cartPopup">
-    <h4>Your Cart</h4>
-    <ul id="cartItems"></ul>
-    <button id="clearCart">Clear Cart</button>
-  </div>
 
   <footer>
     <p>&copy; 2025 Tanish Gift of Gratitude. All rights reserved.</p>
